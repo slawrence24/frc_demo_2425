@@ -6,13 +6,19 @@ package frc.robot;
 
 
 import frc.robot.commands.ActionCommand;
+import frc.robot.commands.ArmGoToAngleCommand;
+import frc.robot.commands.ArmMoveCommand;
+import frc.robot.commands.ArmMoveDirection;
 import frc.robot.commands.JoystickCommand;
+import frc.robot.commands.ResetEncoderCommand;
+import frc.robot.subsystems.ArmSubSystem;
 import frc.robot.subsystems.SingleBrushedMotor;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -27,7 +33,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final SingleBrushedMotor m_exampleSubsystem = new SingleBrushedMotor();
-
+    private final ArmSubSystem m_arm = new ArmSubSystem();
+    
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final Joystick m_joystick = new Joystick(Constants.ControllerPort.Joystick);
     private final XboxController m_manette = new XboxController(Constants.ControllerPort.Manette);
@@ -55,6 +62,20 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
+        // m_exampleSubsystem.setDefaultCommand
+        //     (new JoystickCommand(()->m_joystick.getY(), m_exampleSubsystem));
+
+        new JoystickButton(m_manette, Constants.Xbox360ButtonPort.YellowY)
+                .onTrue(new ActionCommand(1, 0.25, m_exampleSubsystem));
+        new JoystickButton(m_manette, Constants.Xbox360ButtonPort.RedB)
+                .onTrue(new ActionCommand(1, -0.25, m_exampleSubsystem));
+        new JoystickButton(m_manette, Constants.Xbox360ButtonPort.BlueX)
+                .onTrue(new ResetEncoderCommand(m_arm));
+
+        new POVButton(m_manette, Constants.Xbox360ButtonPort.PovUp, 0).whileTrue(new ArmMoveCommand(ArmMoveDirection.Up, m_arm));
+        new POVButton(m_manette, Constants.Xbox360ButtonPort.PovRight, 0).whileTrue(new ArmGoToAngleCommand(0, m_arm));
+        new POVButton(m_manette, Constants.Xbox360ButtonPort.PovDown, 0).whileTrue(new ArmMoveCommand(ArmMoveDirection.Down, m_arm));
+        new POVButton(m_manette, Constants.Xbox360ButtonPort.PovLeft, 0).whileTrue(new ArmGoToAngleCommand(1, m_arm));
     }
 
     /**

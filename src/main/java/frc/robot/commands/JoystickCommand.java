@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SingleBrushedMotor;
 
 public class JoystickCommand  extends Command {
-
+        
     private SingleBrushedMotor m_subSystem;
     private DoubleSupplier m_forward;
 
@@ -23,10 +23,13 @@ public class JoystickCommand  extends Command {
 
     @Override
     public void execute() {
+        var forward = m_forward.getAsDouble();
+        m_subSystem.move(forward);
     }
 
     @Override
     public void end(boolean interrupted) {
+        m_subSystem.stop();
     }
 
     @Override

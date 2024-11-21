@@ -62,6 +62,16 @@ public final class Constants {
         // do not use port 1. CAN port 1 is reserved for the PDP (Power Distribution
         // Panel)
 
-        public static final int TalonMotor = 5; // TalonSRX
+        // Tank Drive
+        public static final int DriveLeftMaster = 5;  // TalonSRX
+        public static final int DriveLeftSlave = 4;   // VictorSPX
+        public static final int DriveRightMaster = 2; // TalonSRX
+        public static final int DriveRightSlave = 7;  // VictorSPX
+
+        // Systems
+        public static final int ArmMotorMaster = 8;   // TalonSRX
+        public static final int ArmMotorSlave = 3;    // VictorSPX
+        public static final int LaunchMotorNeo = 6;   // SparkMax/Neo
+        public static final int IntakeMotorTalon = 9; // TalonSRX
     }
 }
